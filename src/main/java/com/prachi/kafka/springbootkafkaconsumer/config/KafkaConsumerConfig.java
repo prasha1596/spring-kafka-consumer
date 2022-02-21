@@ -85,21 +85,21 @@ public class KafkaConsumerConfig {
             public void handle(Exception e, ConsumerRecord<?, ?> consumerRecord) {
 
             }
-
-//            @Override
-//            public void handle(Exception e, ConsumerRecord<?, ?> consumerRecord, Consumer<?,?> consumer) {
-//                String s = e.getMessage().split("Error deserializing key/value for partition ")[1].split(". If needed, please seek past the record to continue consumption.")[0];
-//                String topics = s.split("-")[0];
-//                int offset = Integer.valueOf(s.split("offset ")[1]);
-//                int partition = Integer.valueOf(s.split("-")[1].split(" at")[0]);
 //
-//                TopicPartition topicPartition = new TopicPartition(topics, partition);
-//                //log.info("Skipping " + topic + "-" + partition + " offset " + offset);
-//                consumer.seek(topicPartition, offset + 1);
-//                System.out.println("OKKKKK");
-//
-//
-//            }
+////            @Override
+////            public void handle(Exception e, ConsumerRecord<?, ?> consumerRecord, Consumer<?,?> consumer) {
+////                String s = e.getMessage().split("Error deserializing key/value for partition ")[1].split(". If needed, please seek past the record to continue consumption.")[0];
+////                String topics = s.split("-")[0];
+////                int offset = Integer.valueOf(s.split("offset ")[1]);
+////                int partition = Integer.valueOf(s.split("-")[1].split(" at")[0]);
+////
+////                TopicPartition topicPartition = new TopicPartition(topics, partition);
+////                //log.info("Skipping " + topic + "-" + partition + " offset " + offset);
+////                consumer.seek(topicPartition, offset + 1);
+////                System.out.println("OKKKKK");
+////
+////
+////            }
         });
 
 //        factory.setErrorHandler(((exception, data) -> {
