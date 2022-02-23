@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "orig1", containerFactory = "default")
+    @KafkaListener(topics = "topic_string", containerFactory = "default")
     public void listen(@Payload ConsumerRecord<String, String> message, @Header(KafkaHeaders.RECEIVED_TOPIC) String tname) {
         System.out.println(tname);
         System.out.println("Consumed message " + message);
@@ -34,7 +34,7 @@ public class KafkaConsumer {
     }
 
 
-    @KafkaListener(topics = "orig1-retry", containerFactory = "retryCOntainer")
+   // @KafkaListener(topics = "orig1-retry", containerFactory = "retryCOntainer")
     //addtnal handling to check for retry count
     //process - business logic
     //log events after retry exhaust
