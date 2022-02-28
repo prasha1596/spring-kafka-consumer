@@ -1,6 +1,5 @@
 package com.prachi.kafka.springbootkafkaconsumer.listener;
 
-
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -21,23 +20,19 @@ public class KafkaConsumerWithRetry {
 
     @RetryableTopic(
             attempts = "4",
-            backoff = @Backoff(delay = 1000, multiplier = 10.0),
-            autoCreateTopics = "false",
-            topicSuffixingStrategy = SUFFIX_WITH_INDEX_VALUE)
+            backoff = @Backoff(delay = 900000, multiplier = 4.0, maxDelay = 21600000), //21600000 ms - 6 hours or  5400000 - 90 min
+            autoCreateTopics = "false", //on local machine - set auto.create.topics.enable = false in server.properties file
+            topicSuffixingStrategy = SUFFIX_WITH_INDEX_VALUE) // get topics created first - topic_string_data-retry-0, topic_string_data-retry-1, topic_string_data-retry-2
     @KafkaListener(topics = "topic_string_data", containerFactory = "default")
-    public void consume(@Payload String message , @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
-        System.out.println("current time: " + new Date());
-        System.out.println("retry method invoked -> " + i++ + " times from topic: " + topic);
-        System.out.println("current time: " + new Date());
-        throw new RuntimeException("Custom exception");
+    public void consume(@Payload String message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        System.out.println("retry method invoked -> " + i++ + " times from topic: " + topic + "current time: " + new Date());
+        throw new RuntimeException();
     }
 
     @DltHandler
     public void listenDlt(String in, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                           @Header(KafkaHeaders.OFFSET) long offset) {
-        System.out.println("current time dlt: " + new Date());
-        System.out.println("DLT Received: " + in + " from " + topic + " offset " + offset + " -> " + i++ + " times");
-        System.out.println("current time dlt: " + new Date());
+        System.out.println("DLT Received: " + in + " from " + topic + " offset " + offset + " -> " + i++ + " times" + "\n current time dlt: " + new Date());
         //dump event to dlt queue
     }
 }
